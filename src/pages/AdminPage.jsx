@@ -485,12 +485,17 @@ export default function AdminPage() {
                             console.log('Loaded template:', fullTemplate);
                             
                             const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-                            const proxyUrl = `${API_URL}/api/events/${selectedEventId}/templates/${templateId}/svg`;
-                            console.log('Setting proxy URL:', proxyUrl);
+                            let targetSvgUrl;
+                            if (template.isSvg) {
+                              targetSvgUrl = `${API_URL}/api/events/${selectedEventId}/templates/${templateId}/svg`;
+                            } else {
+                              targetSvgUrl = fullTemplate.cloudinaryUrl || fullTemplate.svgUrl;
+                            }
+                            console.log('Setting SVG/Image URL:', targetSvgUrl);
                             console.log('Template type:', template.isSvg ? 'svg' : 'image');
                             
                             // Set all template data
-                            setSvgUrl(proxyUrl);
+                            setSvgUrl(targetSvgUrl);
                             setTemplateId(templateId);
                             setCurrentTemplateId(templateId);
                             setTemplateType(template.isSvg ? 'svg' : 'image');
