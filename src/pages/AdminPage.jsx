@@ -234,10 +234,14 @@ export default function AdminPage() {
         throw new Error('Invalid CSV format');
       }
 
-      const cleanedData = parsed.data.map((record) => ({
-        name: record.name?.trim() || '',
-        email: record.email?.trim().toLowerCase() || '',
-      }));
+      const cleanedData = parsed.data.map((record) => {
+        const nameKey = Object.keys(record).find(k => k.toLowerCase() === 'name');
+        const emailKey = Object.keys(record).find(k => k.toLowerCase() === 'email');
+        return {
+          name: (record[nameKey] || '').trim(),
+          email: (record[emailKey] || '').trim().toLowerCase(),
+        };
+      });
 
       const result = await uploadCSV(file, selectedEventId);
       setCSVData(cleanedData);
@@ -556,6 +560,16 @@ export default function AdminPage() {
             )}
           </div>
 
+          <div className={styles.section}>
+            <h2>2.2 View Student CSV Data</h2>
+            {studentsLoading ? (
+              <p style={{ color: '#666' }}>Loading student data...</p>
+            ) : students.length > 0 ? (
+              <CSVPreview data={students} loading={false} error={null} />
+            ) : (
+              <p style={{ color: '#666' }}>No student data. Upload a CSV file above to add students to this event.</p>
+            )}
+          </div>
 
       {svgUrl && (
         <div className={styles.section}>
