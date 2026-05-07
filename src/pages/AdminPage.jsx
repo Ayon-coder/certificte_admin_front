@@ -388,11 +388,6 @@ export default function AdminPage() {
               disabled={csvLoading}
             />
             {csvError && <div className={styles.error}>{csvError}</div>}
-            {studentsLoading ? (
-              <p style={{ color: '#666' }}>Loading student data...</p>
-            ) : (
-              <CSVPreview data={csvData} loading={csvLoading} error={csvError} />
-            )}
           </div>
 
           <div className={styles.section}>
@@ -561,16 +556,6 @@ export default function AdminPage() {
             )}
           </div>
 
-          <div className={styles.section}>
-            <h2>2.2 View Student CSV Data</h2>
-            {studentsLoading ? (
-              <p style={{ color: '#666' }}>Loading student data...</p>
-            ) : students.length > 0 ? (
-              <CSVPreview data={students} loading={false} error={null} />
-            ) : (
-              <p style={{ color: '#666' }}>No student data. Upload a CSV file above to add students to this event.</p>
-            )}
-          </div>
 
       {svgUrl && (
         <div className={styles.section}>
